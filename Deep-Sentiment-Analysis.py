@@ -8,9 +8,13 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Embedding, LSTM, Dense, Dropout
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, classification_report
+import io
+import requests
 
-# Load and preprocess the data
-data = pd.read_csv('movie_reviews.csv')
+# Load and preprocess the data from an online dataset
+url = "https://raw.githubusercontent.com/username/repo/main/movie_reviews.csv"
+data = requests.get(url).content
+data = pd.read_csv(io.StringIO(data.decode('utf-8')))
 X = data['Review']
 y = data['Sentiment']
 
